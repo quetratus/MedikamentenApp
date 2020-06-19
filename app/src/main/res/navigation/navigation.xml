@@ -11,18 +11,10 @@
         android:label="FirstScreenFragment"
         tools:layout="@layout/fragment_first_screen" >
         <action
-            android:id="@+id/action_first_screen_to_sign_up"
-            app:destination="@id/sign_up" />
-        <action
             android:id="@+id/action_first_screen_to_login"
             app:destination="@id/login" />
     </fragment>
 
-    <fragment
-        android:id="@+id/sign_up"
-        android:name="com.example.medikamentenapp.SignUpFragment"
-        android:label="SignUpFragment"
-        tools:layout="@layout/fragment_sign_up" />
     <fragment
         android:id="@+id/login"
         android:name="com.example.medikamentenapp.LoginFragment"

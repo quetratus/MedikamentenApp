@@ -22,13 +22,13 @@ class FirstScreenFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        val binding: FragementFirstScreenBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_first_screen, container, false)
+        val binding: FragmentFirstScreenBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_first_screen, container, false)
 
-        binding.sign_up.setOnClickListener (
+        binding.buttonFirstSignup.setOnClickListener (
             Navigation.createNavigateOnClickListener(R.id.action_first_screen_to_sign_up)
         )
 
-        binding.login.setOnClickListener (
+        binding.buttonFirstSignup.setOnClickListener (
                     Navigation.createNavigateOnClickListener(R.id.action_first_screen_to_login)
         )
        val application = requireNotNull(this.activity).application
