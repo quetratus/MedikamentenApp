@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">MedikamentenApp</string>
+    <string name="logo">Logo_vergissmeinnicht</string>
+    <string name="username">Username</string>
+    <string name="password">Passwort</string>
+    <string name="name">Name</string>
+    <string name="login">Einloggen</string>
+    <string name="enter_time">Uhrzeit eingeben</string>
+    <string name="button_add_time">Uhrzeit hinzufügen</string>
+    <string name="existing_times">Existierende Zeiten:</string>
+    <string name="button_ready">Fertig</string>
+    <string name="button_add_med">Medikament hinzufügen</string>
+    <string name="button_med_finish">Fertig</string>
+    <string name="enter_med">Medikament eingeben</string>
+    <string name="enter_dose">Anzahl der Pulver eingeben</string>
+    <string name="sign_up">Registrieren</string>
+</resources>
