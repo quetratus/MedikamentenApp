@@ -1,87 +1,57 @@
 package com.example.medikamentenapp
 
-import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
-import com.example.medikamentenapp.Repository.UserDetailsRepository
-import com.example.medikamentenapp.entities.User
+import androidx.lifecycle.ViewModelProvider
+import com.example.medikamentenapp.Repository.UserRepository
+import com.example.medikamentenapp.databinding.FragmentLoginBinding
+import com.example.medikamentenapp.db.UserDatabase
+import com.example.medikamentenapp.viewmodel.UserViewModel
+import com.example.medikamentenapp.viewmodel.UserViewModelFactory
 
 
 class LoginFragment : Fragment() {
+
+    private lateinit var userViewModel: UserViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_login, container, false)
+        val binding: FragmentLoginBinding =
+            DataBindingUtil.inflate(inflater, R.layout.fragment_login, container, false)
+        val application = requireNotNull(this.activity).application
+
+        val dao = UserDatabase.getDatabase(application)!!.daoAccess
+        val repository = UserRepository(dao)
+        val factory = UserViewModelFactory(repository)
+        userViewModel = ViewModelProvider(this, factory).get(UserViewModel::class.java)
+        binding.userViewModel = userViewModel
+        binding.lifecycleOwner = this
+        displayUsersList()
+
+        userViewModel.message.observe(viewLifecycleOwner, Observer {
+            it.getContentIfNotHandled()?.let {
+                Toast.makeText(getActivity(),it, Toast.LENGTH_LONG).show()
+            }
+        })
+
+            return binding.root
+
     }
 
-    login.setOnClickListener {
-        if (validation()) {
-            UserDetailsRepository.getGetAllData().observe(this, object : Observer<List<User>> {
-                override fun onChanged(t: List<User>) {
-                    var userObject = t
+        private fun displayUsersList() {
+        userViewModel.users.observe(viewLifecycleOwner, Observer{ Log.i("MYTAG", it.toString() )} )
 
-                    for (i in userObject.indices) {
-                            if (userObject[i].password?.equals(password.text.toString())!!) {
-
-                                val intent = Intent(this@LoginFragment, MainActivity::class.java)
-                                    .putExtra("UserDetials", userObject[i])
-                                // start your next activity
-                                startActivity(intent)
-
-                            } else {
-                                Toast.makeText(this@LoginFragment, " Password is Incorrect ", Toast.LENGTH_LONG)
-                                    .show()
-                            }
-                            isExist = true
-                            break
-
-                        } else {
-                            isExist = false
-                        }
-                    }
-
-                    if (isExist) {
-
-                    } else {
-
-                        Toast.makeText(this@LoginFragment, " User Not Registered ", Toast.LENGTH_LONG).show()
-                    }
-
-                }
-
-            })
         }
-    }
 
 
 }
 
-/**
- * Attempts to sign in  the account specified by the login form.
- * If there are form errors the
- * errors are presented in form of toast and no actual login attempt is made.
- */
-private fun validation(): Boolean {
-
-    if (password.text.isNullOrEmpty()) {
-        Toast.makeText(this@LoginFragment, " Enter Password ", Toast.LENGTH_LONG).show()
-        return false
-    }
-    return true
-}
-
-
-
-
-
-
-
-}
