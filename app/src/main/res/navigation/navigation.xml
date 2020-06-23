@@ -19,5 +19,36 @@
         android:id="@+id/login"
         android:name="com.example.medikamentenapp.LoginFragment"
         android:label="fragment_login"
-        tools:layout="@layout/fragment_login" />
+        tools:layout="@layout/fragment_login" >
+        <action
+            android:id="@+id/action_login_to_overview"
+            app:destination="@id/overview" />
+    </fragment>
+    <fragment
+        android:id="@+id/overview"
+        android:name="com.example.medikamentenapp.overview"
+        android:label="fragment_overview"
+        tools:layout="@layout/fragment_overview" >
+        <action
+            android:id="@+id/action_overview_to_medikament"
+            app:destination="@id/medikament" />
+    </fragment>
+    <fragment
+        android:id="@+id/medikament"
+        android:name="com.example.medikamentenapp.MedikamentFragment"
+        android:label="fragment_medikament"
+        tools:layout="@layout/fragment_medikament" >
+        <action
+            android:id="@+id/action_medikament_to_time"
+            app:destination="@id/time" />
+    </fragment>
+    <fragment
+        android:id="@+id/time"
+        android:name="com.example.medikamentenapp.time"
+        android:label="fragment_time"
+        tools:layout="@layout/fragment_time" >
+        <action
+            android:id="@+id/action_time_to_overview"
+            app:destination="@id/overview" />
+    </fragment>
 </navigation>

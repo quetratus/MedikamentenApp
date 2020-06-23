@@ -12,6 +12,6 @@
     <string name="button_add_med">Medikament hinzufügen</string>
     <string name="button_med_finish">Fertig</string>
     <string name="enter_med">Medikament eingeben</string>
-    <string name="enter_dose">Anzahl der Pulver eingeben</string>
+    <string name="enter_dose">Anzahl Pulver je Einnahme</string>
     <string name="willkomen">Herzlich willkommen zu:</string>
 </resources>
