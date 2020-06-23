@@ -7,15 +7,23 @@ import com.example.medikamentenapp.dao.DaoAccess
 import com.example.medikamentenapp.db.UserDatabase
 import com.example.medikamentenapp.entities.User
 
-class UserDetailsRepository(application: Application) {
 
+class UserRepository(private val dao: DaoAccess) {
 
+    val users = dao.getAllUsers()
+
+    suspend fun insert(user: User): Long {
+        return dao.insertUser(user)
+    }
+}
+
+  /*
     private var daoAccess: DaoAccess? = null
     private var allData: LiveData<List<User>>? = null
 
     init {
         //fetching user database
-        val db = UserDatabase.getInstance(application)
+        val db = UserDatabase.getDatabase(application)
         daoAccess = db?.daoAccess()
         allData = daoAccess?.getDetails()
 
@@ -40,4 +48,7 @@ class UserDetailsRepository(application: Application) {
         }
 
     }
+
+
 }
+*/

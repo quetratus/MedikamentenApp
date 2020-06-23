@@ -1,14 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".LoginFragment">
+>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+<data>
+<variable
+    name="userViewModel"
+    type="com.example.medikamentenapp.viewmodel.UserViewModel" />
+</data>
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        tools:context="com.example.medikamentenapp.LoginFragment">
 
         <ImageView
             android:id="@+id/logo_login"
@@ -36,6 +42,7 @@
             android:inputType="textPersonName"
             android:textAlignment="center"
             android:textSize="@dimen/text_size_big"
+            android:text="@={userViewModel.inputName}"
             app:layout_constraintBottom_toTopOf="@+id/login_password"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
@@ -53,6 +60,7 @@
             android:inputType="textPassword"
             android:textAlignment="center"
             android:textSize="@dimen/text_size_big"
+            android:text="@={userViewModel.inputPassword}"
             app:layout_constraintBottom_toTopOf="@+id/login_button"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -66,7 +74,8 @@
             android:layout_marginTop="@dimen/vertical_margin"
             android:layout_marginEnd="@dimen/horizontal_margin"
             android:layout_marginBottom="@dimen/vertical_margin"
-            android:text="@string/login"
+            android:text="@={userViewModel.loginOrRegisterButtonText}"
+            android:onClick="@{() -> userViewModel.loginOrRegister()}"
             android:textSize="24sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -75,4 +84,4 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-</FrameLayout>
+</layout>

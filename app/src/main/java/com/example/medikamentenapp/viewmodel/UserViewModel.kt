@@ -1,39 +1,67 @@
 package com.example.medikamentenapp.viewmodel
 
 import android.app.Application
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
-import com.example.medikamentenapp.Repository.UserDetailsRepository
+import androidx.databinding.Bindable
+import androidx.databinding.Observable
+import androidx.lifecycle.*
+import com.example.medikamentenapp.Event
+import com.example.medikamentenapp.Repository.UserRepository
 import com.example.medikamentenapp.db.UserDatabase
 import com.example.medikamentenapp.entities.User
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 
-class UserViewModel(
-    val database: UserDatabase,
-    application: Application) : AndroidViewModel(application) {}
+class UserViewModel(private val repository: UserRepository) : ViewModel(), Observable {
+// UserviewModel observes live data
 
+    val users = repository.users
 
+    @Bindable
+    val inputName = MutableLiveData<String>()
 
+    @Bindable
+    val inputPassword = MutableLiveData<String>()
 
-/*
-{
+    @Bindable
+    val loginOrRegisterButtonText = MutableLiveData<String>()
 
-    private var repository: UserDetailsRepository
-    private var getAllData: LiveData<List<User>>
+    private val statusMessage = MutableLiveData<Event<String>>()
+
+    val message : LiveData<Event<String>>
+        get() = statusMessage
 
     init {
-
-        repository = UserDetailsRepository(application)
-        getAllData = repository.getAllData()!!
+        loginOrRegisterButtonText.value = "EINLOGGEN/REGISTRIEREN"
     }
 
-    fun insert(data: User) {
-        repository.insertData(data)
+    fun loginOrRegister(){
+        if(inputName.value==null){
+            statusMessage.value = Event("Bitte den Namen eingeben")
+        }
+        else if(inputPassword.value==null) {
+            statusMessage.value = Event("Bitte das Passwort eingeben")
+        }
+
+        val name = inputName.value!!
+        val password = inputPassword.value!!
+        insert(User(0, name, password ))
+        inputName.value = null
+        inputPassword.value = null
     }
 
-    fun getGetAllData(): LiveData<List<User>> {
-        return getAllData
+    fun insert(user: User) = viewModelScope.launch {
+        val newRowId: Long = repository.insert(user)
+        if (newRowId > -1) {
+            statusMessage.value = Event( "Erfolgreich hinzugefügt")
+        } else {
+            statusMessage.value = Event("Fehler aufgetreten")
+        }
+    }
+
+    override fun removeOnPropertyChangedCallback(callback: Observable.OnPropertyChangedCallback?) {
+    }
+
+    override fun addOnPropertyChangedCallback(callback: Observable.OnPropertyChangedCallback?) {
     }
 }
 
-
- */
