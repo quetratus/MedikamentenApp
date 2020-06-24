@@ -1,8 +1,7 @@
 package com.example.medikamentenapp.entities
 
-import androidx.room.ColumnInfo
-import androidx.room.Entity
-import androidx.room.PrimaryKey
+import androidx.room.*
+import java.sql.Time
 
 @Entity(tableName ="user_table")
 data class User (
@@ -18,3 +17,37 @@ data class User (
     var password: String
 
 )
+
+@Entity(tableName = "medicament_table")
+data class Medicament(
+    @PrimaryKey(autoGenerate = true)
+    var medID: Long = 0L,
+
+    @ColumnInfo(name = "med_name")
+    var med_name: String,
+
+    @ColumnInfo(name = "user")
+    var med_userID: Long = 0L,
+
+    @ColumnInfo(name = "dosis")
+    var med_dosis: Long = 0L,
+
+    @ColumnInfo(name = "time_1")
+    var med_time1: Time,
+
+    @ColumnInfo(name = "time_2")
+    var med_time2: Time,
+
+    @ColumnInfo(name = "time_3")
+    var med_time3: Time
+)
+
+data class UserWithMed(
+    @Embedded val user: User,
+    @Relation(
+        parentColumn = "userID",
+        entityColumn = "med_userID"
+    )
+    val medication: List<Medicament>
+)
+

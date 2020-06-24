@@ -4,10 +4,13 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.room.TypeConverters
 import com.example.medikamentenapp.dao.DaoAccess
+import com.example.medikamentenapp.entities.Medicament
 import com.example.medikamentenapp.entities.User
 
-@Database(entities = [User::class], version = 2, exportSchema = false)
+@Database(entities = [User::class, Medicament::class], version = 3, exportSchema = false)
+@TypeConverters(Converters::class)
 abstract class UserDatabase : RoomDatabase() {
 
     abstract val daoAccess : DaoAccess
@@ -26,7 +29,7 @@ abstract class UserDatabase : RoomDatabase() {
                     instance = Room.databaseBuilder(
                         context.applicationContext,
                         UserDatabase::class.java,
-                        "user_table"
+                        "USER DATABASE"
                     )
                         // Wipes and rebuilds instead of migrating if no Migration object
                         .fallbackToDestructiveMigration()

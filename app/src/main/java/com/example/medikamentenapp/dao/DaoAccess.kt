@@ -5,6 +5,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Update
+import com.example.medikamentenapp.entities.Medicament
 import com.example.medikamentenapp.entities.User
 
 @Dao
@@ -22,4 +23,13 @@ interface DaoAccess {
     /*@Query("DELETE FROM user_table WHERE user_id = :id")
     suspend fun deleteByUserId(id: Long) :Int */
 
+
+    @Insert
+    suspend fun insertMed(med: Medicament) : String
+
+    @Update
+    fun updateMed(med: Medicament) : String
+
+    @Query("SELECT * FROM medicament_table")
+    fun getAllMed(): LiveData<List<Medicament>>
 }
