@@ -78,6 +78,8 @@ class MedViewModel(private val repository: MedicamentRepository) : ViewModel(), 
         }
     }
 
+    fun isExist()
+
     override fun removeOnPropertyChangedCallback(callback: Observable.OnPropertyChangedCallback?) {
     }
 

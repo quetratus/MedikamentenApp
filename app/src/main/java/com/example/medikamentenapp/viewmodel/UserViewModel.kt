@@ -1,14 +1,14 @@
 package com.example.medikamentenapp.viewmodel
 
-import android.app.Application
 import androidx.databinding.Bindable
 import androidx.databinding.Observable
-import androidx.lifecycle.*
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.medikamentenapp.Event
 import com.example.medikamentenapp.Repository.UserRepository
-import com.example.medikamentenapp.db.UserDatabase
 import com.example.medikamentenapp.entities.User
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
 class UserViewModel(private val repository: UserRepository) : ViewModel(), Observable {
@@ -23,7 +23,11 @@ class UserViewModel(private val repository: UserRepository) : ViewModel(), Obser
     val inputPassword = MutableLiveData<String>()
 
     @Bindable
-    val loginOrRegisterButtonText = MutableLiveData<String>()
+    val loginButton = MutableLiveData<String>()
+
+    @Bindable
+    val registerButton = MutableLiveData<String>()
+
 
     private val statusMessage = MutableLiveData<Event<String>>()
 
@@ -31,10 +35,27 @@ class UserViewModel(private val repository: UserRepository) : ViewModel(), Obser
         get() = statusMessage
 
     init {
-        loginOrRegisterButtonText.value = "EINLOGGEN/REGISTRIEREN"
+        loginButton.value = "EINLOGGEN";
+        registerButton.value = "REGISTRIEREN"
     }
 
-    fun loginOrRegister(){
+    fun register(){
+        if(inputName.value==null){
+            statusMessage.value = Event("Bitte den Namen eingeben")
+        }
+        else if(inputPassword.value==null) {
+            statusMessage.value = Event("Bitte das Passwort eingeben")
+        }
+
+        val name = inputName.value!!
+        val password = inputPassword.value!!
+        inputName.value = null
+        inputPassword.value = null
+        insert(User(0, name, password ))
+
+    }
+
+    fun login(){
         if(inputName.value==null){
             statusMessage.value = Event("Bitte den Namen eingeben")
         }
@@ -48,6 +69,8 @@ class UserViewModel(private val repository: UserRepository) : ViewModel(), Obser
         inputName.value = null
         inputPassword.value = null
     }
+
+
 
     fun insert(user: User) = viewModelScope.launch {
         val newRowId: Long = repository.insert(user)
