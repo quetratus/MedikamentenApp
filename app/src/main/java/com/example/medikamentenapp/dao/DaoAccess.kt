@@ -4,7 +4,6 @@ import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
-import androidx.room.Update
 import com.example.medikamentenapp.entities.Medicament
 import com.example.medikamentenapp.entities.User
 
@@ -25,10 +24,10 @@ interface DaoAccess {
 
 
     @Insert
-    suspend fun insertMed(med: Medicament) : String
+    suspend fun insertMed(med: Medicament) : Long
 
-    @Update
-    fun updateMed(med: Medicament) : String
+    /*@Update
+    fun updateMed(med: Medicament) : String*/
 
     @Query("SELECT * FROM medicament_table")
     fun getAllMed(): LiveData<List<Medicament>>

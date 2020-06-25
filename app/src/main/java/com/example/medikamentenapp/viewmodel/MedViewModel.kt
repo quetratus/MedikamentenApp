@@ -1,12 +1,18 @@
 package com.example.medikamentenapp.viewmodel
 
-class MedViewModel
-/*
-IN BEARBEITUNG
+import androidx.databinding.Bindable
+import androidx.databinding.Observable
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.example.medikamentenapp.Event
+import com.example.medikamentenapp.Repository.MedicamentRepository
+import com.example.medikamentenapp.entities.Medicament
+import kotlinx.coroutines.launch
+
+
 class MedViewModel(private val repository: MedicamentRepository) : ViewModel(), Observable {
-
-
-// View Model observes live data
 
     val meds = repository.meds
 
@@ -17,13 +23,13 @@ class MedViewModel(private val repository: MedicamentRepository) : ViewModel(), 
     val inputMedDosis = MutableLiveData<String>()
 
     @Bindable
-    val inputMedTime1 = MutableLiveData<String>()
+    val inputMedTime1 = MutableLiveData<Long>()
 
     @Bindable
-    val inputMedTime2 = MutableLiveData<String>()
+    val inputMedTime2 = MutableLiveData<Long>()
 
     @Bindable
-    val inputMedTime3 = MutableLiveData<String>()
+    val inputMedTime3 = MutableLiveData<Long>()
 
     @Bindable
     val saveMedButton = MutableLiveData<String>()
@@ -34,7 +40,7 @@ class MedViewModel(private val repository: MedicamentRepository) : ViewModel(), 
         get() = statusMessage
 
     init {
-        saveMedButton.value = "SPEICHERN"
+        saveMedButton.value = "MEDIKAMENT SPEICHERN"
     }
 
     fun saveMed(){
@@ -47,7 +53,6 @@ class MedViewModel(private val repository: MedicamentRepository) : ViewModel(), 
             else if(inputMedTime1.value==null) {
                 statusMessage.value = Event("Bitte die gewünschte Uhrzeit eingeben")
             }
-        }
 
     val medName = inputMedName.value!!
     val medDosis = inputMedDosis.value!!
@@ -56,14 +61,16 @@ class MedViewModel(private val repository: MedicamentRepository) : ViewModel(), 
     val medTime3 = inputMedTime3.value
 
 
-    insert(Medicament(0, medName, medDosis, medTime1, medTime2, medTime3 ))
+    insertMed(Medicament(0, medName, medDosis, medTime1, medTime2, medTime3))
         inputMedName.value = null
         inputMedDosis.value = null
-
+        inputMedTime1.value = null
+        inputMedTime2.value = null
+        inputMedTime3.value = null
     }
 
-    fun insert(med: Medicament) = viewModelScope.launch {
-        val newRowId: Long = repository.insert(med)
+    fun insertMed(med: Medicament) = viewModelScope.launch {
+        val newRowId: Long = repository.insertMed(med)
         if (newRowId > -1) {
             statusMessage.value = Event( "Erfolgreich hinzugefügt")
         } else {
@@ -78,4 +85,3 @@ class MedViewModel(private val repository: MedicamentRepository) : ViewModel(), 
     }
 }
 
-*/

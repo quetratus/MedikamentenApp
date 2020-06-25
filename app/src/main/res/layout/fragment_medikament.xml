@@ -4,9 +4,17 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="com.example.medikamentenapp.MedikamentFragment">
 
+    <data>
+        <variable
+            name="medViewModel"
+            type="com.example.medikamentenapp.viewmodel.MedViewModel" />
+    </data>
+
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        tools:context="com.example.medikamentenapp.LoginFragment">
 
         <Button
             android:id="@+id/button_med_finish"
@@ -16,7 +24,8 @@
             android:layout_marginTop="@dimen/vertical_margin"
             android:layout_marginEnd="@dimen/horizontal_margin"
             android:layout_marginBottom="@dimen/vertical_margin"
-            android:text="@string/button_med_finish"
+            android:text="@={medViewModel.saveMedButton}"
+            android:onClick="@{() -> medViewModel.saveMed()}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -35,11 +44,14 @@
             android:hint="@string/enter_dose"
             android:inputType="number"
             android:textSize="@dimen/text_size"
+            android:text="@={medViewModel.inputMedDosis}"
             app:layout_constraintBottom_toTopOf="@+id/button_med_finish"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/med_name" />
+
+
 
         <EditText
             android:id="@+id/med_name"
@@ -55,6 +67,7 @@
             android:hint="@string/enter_med"
             android:inputType="textMultiLine"
             android:textSize="@dimen/text_size"
+            android:text="@={medViewModel.inputMedName}"
             app:layout_constraintBottom_toTopOf="@+id/med_dose"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"

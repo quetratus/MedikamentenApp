@@ -15,22 +15,21 @@ data class User (
 
     @ColumnInfo(name="user_password")
     var password: String
-
 )
 
 @Entity(tableName = "medicament_table")
 data class Medicament(
     @PrimaryKey(autoGenerate = true)
-    var medID: Long = 0L,
+    var medID: Int,
 
     @ColumnInfo(name = "med_name")
     var med_name: String,
 
-    @ColumnInfo(name = "user")
-    var med_userID: Long = 0L,
+   /* @ColumnInfo(name = "user")
+    var med_userID: Int, */
 
     @ColumnInfo(name = "dosis")
-    var med_dosis: Long = 0L,
+    var med_dosis: String,
 
     @ColumnInfo(name = "time_1")
     var med_time1: Time,

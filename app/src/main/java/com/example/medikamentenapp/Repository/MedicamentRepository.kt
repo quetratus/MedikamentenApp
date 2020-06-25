@@ -8,7 +8,7 @@ class MedicamentRepository(private val dao: DaoAccess) {
 
     val meds = dao.getAllMed()
 
-    suspend fun insertMed(meds: Medicament): String {
-        return dao.insertMed(meds)
+    suspend fun insertMed(med: Medicament): Long {
+        return dao.insertMed(med)
     }
 }
