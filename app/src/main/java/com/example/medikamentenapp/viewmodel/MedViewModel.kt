@@ -1,17 +1,8 @@
 package com.example.medikamentenapp.viewmodel
 
-import androidx.databinding.Bindable
-import androidx.databinding.Observable
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import com.example.medikamentenapp.Event
-import com.example.medikamentenapp.Repository.MedicamentRepository
-import com.example.medikamentenapp.entities.Medicament
-import kotlinx.coroutines.launch
-
-
+class MedViewModel()
+/*
+UNDER CONSTRUCTION
 class MedViewModel(private val repository: MedicamentRepository) : ViewModel(), Observable {
 
     val meds = repository.meds
@@ -38,6 +29,7 @@ class MedViewModel(private val repository: MedicamentRepository) : ViewModel(), 
 
     val message : LiveData<Event<String>>
         get() = statusMessage
+
 
     init {
         saveMedButton.value = "MEDIKAMENT SPEICHERN"
@@ -78,7 +70,6 @@ class MedViewModel(private val repository: MedicamentRepository) : ViewModel(), 
         }
     }
 
-    fun isExist()
 
     override fun removeOnPropertyChangedCallback(callback: Observable.OnPropertyChangedCallback?) {
     }
@@ -87,3 +78,5 @@ class MedViewModel(private val repository: MedicamentRepository) : ViewModel(), 
     }
 }
 
+
+ */

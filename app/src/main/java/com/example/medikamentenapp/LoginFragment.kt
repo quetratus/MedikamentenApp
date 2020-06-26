@@ -10,6 +10,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import com.example.medikamentenapp.Repository.UserRepository
 import com.example.medikamentenapp.databinding.FragmentLoginBinding
 import com.example.medikamentenapp.db.UserDatabase
@@ -37,11 +38,27 @@ class LoginFragment : Fragment() {
         binding.lifecycleOwner = this
         displayUsersList()
 
-        userViewModel.message.observe(viewLifecycleOwner, Observer {
-            it.getContentIfNotHandled()?.let {
-                Toast.makeText(getActivity(),it, Toast.LENGTH_LONG).show()
+
+        // Add an Observer to the state variable for Navigating when a Quality icon is tapped.
+        userViewModel.navigateLoggedInEvent.observe(viewLifecycleOwner, Observer {
+            if (it == true) {// Observed state is true.
+                let {
+                    this.findNavController().navigate(
+                        LoginFragmentDirections.actionLoginToOverview()
+                    )
+                }
             }
-        })
+                // Reset state to make sure we only navigate once, even if the device
+                // has a configuration change.
+                userViewModel.doneNavigateLoggedInEvent()
+            })
+
+        userViewModel.message.observe(viewLifecycleOwner, Observer {
+                it.getContentIfNotHandled()?.let {
+                    Toast.makeText(getActivity(), it, Toast.LENGTH_LONG).show()
+                }
+            })
+
 
 
             return binding.root

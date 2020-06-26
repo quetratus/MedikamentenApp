@@ -22,7 +22,6 @@ interface DaoAccess {
     /*@Query("DELETE FROM user_table WHERE user_id = :id")
     suspend fun deleteByUserId(id: Long) :Int */
 
-
     @Insert
     suspend fun insertMed(med: Medicament) : Long
 

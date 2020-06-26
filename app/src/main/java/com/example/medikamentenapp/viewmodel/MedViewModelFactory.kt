@@ -1,10 +1,7 @@
 package com.example.medikamentenapp.viewmodel
 
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import com.example.medikamentenapp.Repository.MedicamentRepository
-
-
+class MedViewModelFactory
+/*
 class MedViewModelFactory (private val repository: MedicamentRepository) : ViewModelProvider.Factory {
     @SuppressWarnings("unchecked")
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
@@ -14,3 +11,5 @@ class MedViewModelFactory (private val repository: MedicamentRepository) : ViewM
         throw IllegalArgumentException("Unknown ViewModel class")
     }
 }
+
+ */

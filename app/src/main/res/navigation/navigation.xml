@@ -26,7 +26,7 @@
     </fragment>
     <fragment
         android:id="@+id/overview"
-        android:name="com.example.medikamentenapp.overview"
+        android:name="com.example.medikamentenapp.OverviewFragment"
         android:label="fragment_overview"
         tools:layout="@layout/fragment_overview" >
         <action
@@ -44,7 +44,7 @@
     </fragment>
     <fragment
         android:id="@+id/time"
-        android:name="com.example.medikamentenapp.time"
+        android:name="com.example.medikamentenapp.TimeFragment"
         android:label="fragment_time"
         tools:layout="@layout/fragment_time" >
         <action
