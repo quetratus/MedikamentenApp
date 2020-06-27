@@ -14,4 +14,5 @@
     <string name="enter_med">Medikament eingeben</string>
     <string name="enter_dose">Anzahl Pulver je Einnahme</string>
     <string name="willkomen">Herzlich willkommen zu:</string>
+    <string name="liste_der_eingenommen_medikamente_inkl_uhrzeit">Liste der eingenommen Medikamente inkl Uhrzeit</string>
 </resources>

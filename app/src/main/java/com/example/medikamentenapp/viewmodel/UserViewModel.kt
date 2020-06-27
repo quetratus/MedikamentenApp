@@ -35,7 +35,7 @@ class UserViewModel(private val repository: UserRepository) : ViewModel(), Obser
         get() = statusMessage
 
     init {
-        loginButton.value = "EINLOGGEN";
+        loginButton.value = "EINLOGGEN"
         registerButton.value = "REGISTRIEREN"
     }
 
@@ -46,13 +46,14 @@ class UserViewModel(private val repository: UserRepository) : ViewModel(), Obser
         else if(inputPassword.value==null) {
             statusMessage.value = Event("Bitte das Passwort eingeben")
         }
+        else {
 
-        val name = inputName.value!!
-        val password = inputPassword.value!!
-        inputName.value = null
-        inputPassword.value = null
-        insertNewUser(User(0, name, password ))
-
+            val name: String = inputName.value!!
+            val password = inputPassword.value!!
+            inputName.value = null
+            inputPassword.value = null
+            insertNewUser(User(0, name, password))
+        }
     }
 
     fun login(){
@@ -63,11 +64,13 @@ class UserViewModel(private val repository: UserRepository) : ViewModel(), Obser
             statusMessage.value = Event("Bitte das Passwort eingeben")
         }
 
-        val name = inputName.value!!
-        val password = inputPassword.value!!
-        loginUser(User(0, name, password ))
-        inputName.value = null
-        inputPassword.value = null
+        else {
+            val name = inputName.value!!
+            val password = inputPassword.value!!
+            loginUser(User(0, name, password))
+            inputName.value = null
+            inputPassword.value = null
+        }
     }
 
 
@@ -86,6 +89,7 @@ class UserViewModel(private val repository: UserRepository) : ViewModel(), Obser
             }
         }
     }
+
     private var _navigateLoggedInEvent = MutableLiveData<Boolean>()
 
     val navigateLoggedInEvent: LiveData<Boolean>

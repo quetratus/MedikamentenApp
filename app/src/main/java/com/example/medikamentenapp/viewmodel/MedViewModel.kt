@@ -1,8 +1,17 @@
 package com.example.medikamentenapp.viewmodel
 
-class MedViewModel()
-/*
-UNDER CONSTRUCTION
+import androidx.databinding.Bindable
+import androidx.databinding.Observable
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.example.medikamentenapp.Event
+import com.example.medikamentenapp.Repository.MedicamentRepository
+import com.example.medikamentenapp.entities.Medicament
+import kotlinx.coroutines.launch
+import java.sql.Time
+
 class MedViewModel(private val repository: MedicamentRepository) : ViewModel(), Observable {
 
     val meds = repository.meds
@@ -14,13 +23,13 @@ class MedViewModel(private val repository: MedicamentRepository) : ViewModel(), 
     val inputMedDosis = MutableLiveData<String>()
 
     @Bindable
-    val inputMedTime1 = MutableLiveData<Long>()
+    val inputMedTime1 = MutableLiveData<Time>()
 
     @Bindable
-    val inputMedTime2 = MutableLiveData<Long>()
+    val inputMedTime2 = MutableLiveData<Time>()
 
     @Bindable
-    val inputMedTime3 = MutableLiveData<Long>()
+    val inputMedTime3 = MutableLiveData<Time>()
 
     @Bindable
     val saveMedButton = MutableLiveData<String>()
@@ -35,33 +44,31 @@ class MedViewModel(private val repository: MedicamentRepository) : ViewModel(), 
         saveMedButton.value = "MEDIKAMENT SPEICHERN"
     }
 
-    fun saveMed(){
-        if(inputMedName.value==null){
+    fun saveMed() {
+        if (inputMedName.value == null) {
             statusMessage.value = Event("Bitte den Namen eingeben")
-        }
-        else if(inputMedDosis.value==null) {
+        } else if (inputMedDosis.value == null) {
             statusMessage.value = Event("Bitte die Dosis eingeben")
+        } else if (inputMedTime1.value == null) {
+            statusMessage.value = Event("Bitte die gewünschte Uhrzeit eingeben")
         }
-            else if(inputMedTime1.value==null) {
-                statusMessage.value = Event("Bitte die gewünschte Uhrzeit eingeben")
-            }
 
-    val medName = inputMedName.value!!
-    val medDosis = inputMedDosis.value!!
-    val medTime1 = inputMedTime1.value!!
-    val medTime2 = inputMedTime2.value
-    val medTime3 = inputMedTime3.value
+        val medName = inputMedName.value!!
+        val medDosis = inputMedDosis.value!!
+        val medTime1 = inputMedTime1.value!!
+        val medTime2 = inputMedTime2.value!!
+        val medTime3 = inputMedTime3.value!!
 
-
-    insertMed(Medicament(0, medName, medDosis, medTime1, medTime2, medTime3))
+        insertMed(Medicament(0, medName, medDosis, medTime1, medTime2, medTime3))
         inputMedName.value = null
         inputMedDosis.value = null
         inputMedTime1.value = null
         inputMedTime2.value = null
         inputMedTime3.value = null
+
     }
 
-    fun insertMed(med: Medicament) = viewModelScope.launch {
+        fun insertMed(med: Medicament) = viewModelScope.launch {
         val newRowId: Long = repository.insertMed(med)
         if (newRowId > -1) {
             statusMessage.value = Event( "Erfolgreich hinzugefügt")
@@ -79,4 +86,3 @@ class MedViewModel(private val repository: MedicamentRepository) : ViewModel(), 
 }
 
 
- */

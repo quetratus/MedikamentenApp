@@ -47,10 +47,10 @@ class LoginFragment : Fragment() {
                         LoginFragmentDirections.actionLoginToOverview()
                     )
                 }
-            }
                 // Reset state to make sure we only navigate once, even if the device
                 // has a configuration change.
                 userViewModel.doneNavigateLoggedInEvent()
+            }
             })
 
         userViewModel.message.observe(viewLifecycleOwner, Observer {
@@ -58,18 +58,12 @@ class LoginFragment : Fragment() {
                     Toast.makeText(getActivity(), it, Toast.LENGTH_LONG).show()
                 }
             })
-
-
-
             return binding.root
-
     }
 
         private fun displayUsersList() {
         userViewModel.users.observe(viewLifecycleOwner, Observer{ Log.i("MYTAG", it.toString() )} )
 
         }
-
-
 }
 
