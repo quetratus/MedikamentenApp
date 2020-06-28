@@ -15,41 +15,6 @@
         android:layout_height="match_parent"
         tools:context="com.example.medikamentenapp.MedikamentFragment">
 
-        <Button
-            android:id="@+id/button_med_finish"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/horizontal_margin"
-            android:layout_marginTop="@dimen/vertical_margin"
-            android:layout_marginEnd="@dimen/horizontal_margin"
-            android:layout_marginBottom="@dimen/vertical_margin"
-            android:text="@={medViewModel.saveMedButton}"
-            android:onClick="@{() -> medViewModel.saveMed()}"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/med_dose" />
-
-        <EditText
-            android:id="@+id/med_dose"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/horizontal_margin"
-            android:layout_marginTop="@dimen/vertical_margin"
-            android:layout_marginEnd="@dimen/horizontal_margin"
-            android:layout_marginBottom="@dimen/vertical_margin"
-            android:autofillHints=""
-            android:ems="10"
-            android:hint="@string/enter_dose"
-            android:inputType="number"
-            android:textSize="@dimen/text_size"
-            android:text="@={medViewModel.inputMedDosis}"
-            app:layout_constraintBottom_toTopOf="@+id/button_med_finish"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/med_name" />
-
         <EditText
             android:id="@+id/med_name"
             android:layout_width="0dp"
@@ -57,19 +22,95 @@
             android:layout_marginStart="@dimen/horizontal_margin"
             android:layout_marginTop="@dimen/vertical_margin"
             android:layout_marginEnd="@dimen/horizontal_margin"
-            android:layout_marginBottom="@dimen/vertical_margin"
+            android:layout_marginBottom="@dimen/vertical_margin_small"
             android:autofillHints=""
             android:ems="10"
             android:gravity="start|top"
             android:hint="@string/enter_med"
             android:inputType="textMultiLine"
-            android:textSize="@dimen/text_size"
             android:text="@={medViewModel.inputMedName}"
+            android:textSize="@dimen/text_size"
             app:layout_constraintBottom_toTopOf="@+id/med_dose"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <EditText
+            android:id="@+id/med_dose"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/horizontal_margin"
+            android:layout_marginTop="@dimen/vertical_margin_small"
+            android:layout_marginEnd="@dimen/horizontal_margin"
+            android:layout_marginBottom="@dimen/vertical_margin_small"
+            android:autofillHints=""
+            android:ems="10"
+            android:hint="@string/enter_dose"
+            android:inputType="number"
+            android:text="@={medViewModel.inputMedDosis}"
+            android:textSize="@dimen/text_size"
+            app:layout_constraintBottom_toTopOf="@+id/timePicker"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/med_name" />
+
+        <TimePicker
+            android:id="@+id/timePicker"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/horizontal_margin"
+            android:layout_marginTop="@dimen/vertical_margin_small"
+            android:layout_marginEnd="@dimen/horizontal_margin"
+            android:layout_marginBottom="@dimen/vertical_margin_small"
+            app:layout_constraintBottom_toTopOf="@id/med_time"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/med_dose" />
+
+        <TextView
+            android:id="@+id/med_time"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/horizontal_margin"
+            android:layout_marginTop="@dimen/vertical_margin_small"
+            android:layout_marginEnd="@dimen/horizontal_margin"
+            android:textSize="@dimen/text_size"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/button_add_time"
+            app:layout_constraintTop_toBottomOf="@+id/timePicker" />
+
+        <Button
+            android:id="@+id/button_add_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/horizontal_margin"
+            android:layout_marginTop="@dimen/vertical_margin_small"
+            android:layout_marginEnd="@dimen/horizontal_margin"
+            android:layout_marginBottom="@dimen/vertical_margin"
+            android:text="@string/button_add_time"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/button_med_finish"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/med_time" />
+
+
+        <Button
+            android:id="@+id/button_med_finish"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/horizontal_margin"
+            android:layout_marginTop="@dimen/vertical_margin_small"
+            android:layout_marginEnd="@dimen/horizontal_margin"
+            android:layout_marginBottom="@dimen/vertical_margin"
+            android:onClick="@{() -> medViewModel.saveMed()}"
+            android:text="@={medViewModel.saveMedButton}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/button_add_time"
+            app:layout_constraintTop_toBottomOf="@+id/med_time" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

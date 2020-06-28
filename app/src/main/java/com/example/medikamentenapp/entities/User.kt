@@ -1,7 +1,6 @@
 package com.example.medikamentenapp.entities
 
 import androidx.room.*
-import java.sql.Time
 
 @Entity(tableName ="user_table")
 data class User (
@@ -25,20 +24,20 @@ data class Medicament(
     @ColumnInfo(name = "med_name")
     var med_name: String,
 
-   /* @ColumnInfo(name = "user")
-    var med_userID: Int, */
+    /* @ColumnInfo(name = "user")
+     var med_userID: Int, */
 
     @ColumnInfo(name = "dosis")
     var med_dosis: String,
 
     @ColumnInfo(name = "time_1")
-    var med_time1: Time,
+    var med_time1: String,
 
     @ColumnInfo(name = "time_2")
-    var med_time2: Time,
+    var med_time2: String,
 
     @ColumnInfo(name = "time_3")
-    var med_time3: Time
+    var med_time3: String
 )
 
 data class UserWithMed(

@@ -28,7 +28,7 @@ class MedikamentFragment : Fragment() {
         // Inflate the layout for this fragment
         val binding: FragmentMedikamentBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_medikament, container, false)
         val application = requireNotNull(this.activity).application
-
+        binding.timePicker.setIs24HourView(true)
         val dao = UserDatabase.getDatabase(application)!!.daoAccess
         val repository = MedicamentRepository(dao)
         val factory = MedViewModelFactory(repository)
@@ -39,9 +39,18 @@ class MedikamentFragment : Fragment() {
 
         medViewModel.message.observe(viewLifecycleOwner, Observer {
             it.getContentIfNotHandled()?.let {
-                Toast.makeText(getActivity(),it, Toast.LENGTH_LONG).show()
+                Toast.makeText(getActivity(), it, Toast.LENGTH_LONG).show()
             }
         })
+
+        binding.buttonAddTime.setOnClickListener {
+            var hour: Int = binding.timePicker.currentHour
+            var minute: Int = binding.timePicker.currentMinute
+            medViewModel.addTime(hour, minute)
+
+        }
+
+
         return binding.root
     }
 

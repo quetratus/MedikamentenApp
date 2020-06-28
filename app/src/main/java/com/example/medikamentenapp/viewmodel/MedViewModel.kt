@@ -10,7 +10,6 @@ import com.example.medikamentenapp.Event
 import com.example.medikamentenapp.Repository.MedicamentRepository
 import com.example.medikamentenapp.entities.Medicament
 import kotlinx.coroutines.launch
-import java.sql.Time
 
 class MedViewModel(private val repository: MedicamentRepository) : ViewModel(), Observable {
 
@@ -23,13 +22,13 @@ class MedViewModel(private val repository: MedicamentRepository) : ViewModel(), 
     val inputMedDosis = MutableLiveData<String>()
 
     @Bindable
-    val inputMedTime1 = MutableLiveData<Time>()
+    val inputMedTime1 = MutableLiveData<String>()
 
     @Bindable
-    val inputMedTime2 = MutableLiveData<Time>()
+    val inputMedTime2 = MutableLiveData<String>()
 
     @Bindable
-    val inputMedTime3 = MutableLiveData<Time>()
+    val inputMedTime3 = MutableLiveData<String>()
 
     @Bindable
     val saveMedButton = MutableLiveData<String>()
@@ -41,7 +40,7 @@ class MedViewModel(private val repository: MedicamentRepository) : ViewModel(), 
 
 
     init {
-        saveMedButton.value = "MEDIKAMENT SPEICHERN"
+        saveMedButton.value = "SPEICHERN"
     }
 
     fun saveMed() {
@@ -68,13 +67,20 @@ class MedViewModel(private val repository: MedicamentRepository) : ViewModel(), 
 
     }
 
-        fun insertMed(med: Medicament) = viewModelScope.launch {
+    private fun insertMed(med: Medicament) = viewModelScope.launch {
         val newRowId: Long = repository.insertMed(med)
         if (newRowId > -1) {
-            statusMessage.value = Event( "Erfolgreich hinzugefügt")
+            statusMessage.value = Event("Erfolgreich hinzugefügt")
         } else {
             statusMessage.value = Event("Fehler aufgetreten")
         }
+
+
+    }
+
+    fun addTime(hour: Int, minute: Int) {
+
+
     }
 
 

@@ -31,7 +31,7 @@ class UserViewModel(private val repository: UserRepository) : ViewModel(), Obser
 
     private val statusMessage = MutableLiveData<Event<String>>()
 
-    val message : LiveData<Event<String>>
+    val message: LiveData<Event<String>>
         get() = statusMessage
 
     init {
@@ -39,42 +39,34 @@ class UserViewModel(private val repository: UserRepository) : ViewModel(), Obser
         registerButton.value = "REGISTRIEREN"
     }
 
-    fun register(){
-        if(inputName.value==null){
+    private var _navigateRegisteredEvent = MutableLiveData<Boolean>()
+
+    val navigateRegisteredEvent: LiveData<Boolean>
+        get() = _navigateRegisteredEvent
+
+
+    fun doneNavigateRegisteredEvent() {
+        _navigateRegisteredEvent.value = false
+    }
+
+
+    fun register() {
+        if (inputName.value == null) {
             statusMessage.value = Event("Bitte den Namen eingeben")
-        }
-        else if(inputPassword.value==null) {
+        } else if (inputPassword.value == null) {
             statusMessage.value = Event("Bitte das Passwort eingeben")
-        }
-        else {
+        } else {
 
             val name: String = inputName.value!!
             val password = inputPassword.value!!
-            inputName.value = null
-            inputPassword.value = null
             insertNewUser(User(0, name, password))
-        }
-    }
-
-    fun login(){
-        if(inputName.value==null){
-            statusMessage.value = Event("Bitte den Namen eingeben")
-        }
-        else if(inputPassword.value==null) {
-            statusMessage.value = Event("Bitte das Passwort eingeben")
-        }
-
-        else {
-            val name = inputName.value!!
-            val password = inputPassword.value!!
-            loginUser(User(0, name, password))
             inputName.value = null
             inputPassword.value = null
+
         }
     }
 
-
-    fun insertNewUser(user: User) = viewModelScope.launch {
+    private fun insertNewUser(user: User) = viewModelScope.launch {
         for (i in users.value!!) {
             if (user.name.equals(inputName.value, true)) {
                 statusMessage.value = Event("User existiert bereits")
@@ -83,10 +75,25 @@ class UserViewModel(private val repository: UserRepository) : ViewModel(), Obser
                 val newRowId: Long = repository.insert(user)
                 if (newRowId > -1) {
                     statusMessage.value = Event("Erfolgreich hinzugefügt")
+                    _navigateRegisteredEvent.value = true
                 } else {
                     statusMessage.value = Event("Fehler aufgetreten")
                 }
             }
+        }
+    }
+
+    fun login() {
+        if (inputName.value == null) {
+            statusMessage.value = Event("Bitte den Namen eingeben")
+        } else if (inputPassword.value == null) {
+            statusMessage.value = Event("Bitte das Passwort eingeben")
+        } else {
+            val name = inputName.value!!
+            val password = inputPassword.value!!
+            loginUser(User(0, name, password))
+            inputName.value = null
+            inputPassword.value = null
         }
     }
 
@@ -100,15 +107,13 @@ class UserViewModel(private val repository: UserRepository) : ViewModel(), Obser
         _navigateLoggedInEvent.value = false
     }
 
-
     fun loginUser(user: User) = viewModelScope.launch {
         for (i in users.value!!) {
-                if (user.name.equals(inputName.value, true)) {
-                    _navigateLoggedInEvent.value = true
-                }
-             else {
-                    statusMessage.value = Event("Bitte registrieren Sie sich")
-                }
+            if (user.name.equals(inputName.value, true) && user.password == inputPassword.value) {
+                _navigateLoggedInEvent.value = true
+            } else {
+                statusMessage.value = Event("Bitte registrieren Sie sich")
+            }
             }
         }
 

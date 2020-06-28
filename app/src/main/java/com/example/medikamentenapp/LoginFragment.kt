@@ -39,7 +39,7 @@ class LoginFragment : Fragment() {
         displayUsersList()
 
 
-        // Add an Observer to the state variable for Navigating when a Quality icon is tapped.
+        // Add an Observer to the state variable for Navigating when Login is tapped.
         userViewModel.navigateLoggedInEvent.observe(viewLifecycleOwner, Observer {
             if (it == true) {// Observed state is true.
                 let {
@@ -51,14 +51,28 @@ class LoginFragment : Fragment() {
                 // has a configuration change.
                 userViewModel.doneNavigateLoggedInEvent()
             }
-            })
+        })
+
+        // Add an Observer to the state variable for Navigating when Registered is tapped.
+        userViewModel.navigateRegisteredEvent.observe(viewLifecycleOwner, Observer {
+            if (it == true) {
+                let {
+                    this.findNavController().navigate(
+                        LoginFragmentDirections.actionLoginToOverview()
+                    )
+                }
+                // Reset state to make sure we only navigate once, even if the device
+                // has a configuration change.
+                userViewModel.doneNavigateRegisteredEvent()
+            }
+        })
 
         userViewModel.message.observe(viewLifecycleOwner, Observer {
-                it.getContentIfNotHandled()?.let {
-                    Toast.makeText(getActivity(), it, Toast.LENGTH_LONG).show()
-                }
-            })
-            return binding.root
+            it.getContentIfNotHandled()?.let {
+                Toast.makeText(getActivity(), it, Toast.LENGTH_LONG).show()
+            }
+        })
+        return binding.root
     }
 
         private fun displayUsersList() {

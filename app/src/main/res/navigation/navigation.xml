@@ -39,16 +39,7 @@
         android:label="fragment_medikament"
         tools:layout="@layout/fragment_medikament" >
         <action
-            android:id="@+id/action_medikament_to_time"
-            app:destination="@id/time" />
-    </fragment>
-    <fragment
-        android:id="@+id/time"
-        android:name="com.example.medikamentenapp.TimeFragment"
-        android:label="fragment_time"
-        tools:layout="@layout/fragment_time" >
-        <action
-            android:id="@+id/action_time_to_overview"
+            android:id="@+id/action_medikament_to_overview"
             app:destination="@id/overview" />
     </fragment>
 </navigation>
