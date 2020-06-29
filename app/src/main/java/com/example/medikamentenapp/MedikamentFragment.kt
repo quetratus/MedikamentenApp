@@ -44,10 +44,9 @@ class MedikamentFragment : Fragment() {
         })
 
         binding.buttonAddTime.setOnClickListener {
-            var hour: Int = binding.timePicker.currentHour
-            var minute: Int = binding.timePicker.currentMinute
+            val hour: Int = binding.timePicker.currentHour
+            val minute: Int = binding.timePicker.currentMinute
             medViewModel.addTime(hour, minute)
-
         }
 
 
