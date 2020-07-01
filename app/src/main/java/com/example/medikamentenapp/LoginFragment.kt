@@ -8,18 +8,23 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
+import androidx.room.Query
 import com.example.medikamentenapp.Repository.UserRepository
 import com.example.medikamentenapp.databinding.FragmentLoginBinding
 import com.example.medikamentenapp.db.UserDatabase
+import com.example.medikamentenapp.entities.User
 import com.example.medikamentenapp.viewmodel.UserViewModel
 import com.example.medikamentenapp.viewmodel.UserViewModelFactory
+import kotlinx.android.synthetic.main.fragment_login.*
 
 
 class LoginFragment : Fragment() {
-
     private lateinit var userViewModel: UserViewModel
 
     override fun onCreateView(
@@ -40,7 +45,7 @@ class LoginFragment : Fragment() {
 
 
         // Add an Observer to the state variable for Navigating when Login is tapped.
-        userViewModel.navigateLoggedInEvent.observe(viewLifecycleOwner, Observer {
+       userViewModel.navigateLoggedInEvent.observe(viewLifecycleOwner, Observer {
             if (it == true) {// Observed state is true.
                 let {
                     this.findNavController().navigate(
@@ -53,31 +58,17 @@ class LoginFragment : Fragment() {
             }
         })
 
-        // Add an Observer to the state variable for Navigating when Registered is tapped.
-        userViewModel.navigateRegisteredEvent.observe(viewLifecycleOwner, Observer {
-            if (it == true) {
-                let {
-                    this.findNavController().navigate(
-                        LoginFragmentDirections.actionLoginToOverview()
-                    )
-                }
-                // Reset state to make sure we only navigate once, even if the device
-                // has a configuration change.
-                userViewModel.doneNavigateRegisteredEvent()
-            }
-        })
-
         userViewModel.message.observe(viewLifecycleOwner, Observer {
             it.getContentIfNotHandled()?.let {
                 Toast.makeText(getActivity(), it, Toast.LENGTH_LONG).show()
             }
         })
+
         return binding.root
     }
 
-        private fun displayUsersList() {
+    private fun displayUsersList() {
         userViewModel.users.observe(viewLifecycleOwner, Observer{ Log.i("MYTAG", it.toString() )} )
-
-        }
+    }
 }
 

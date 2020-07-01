@@ -1,14 +1,12 @@
 package com.example.medikamentenapp.entities
 
-import androidx.room.*
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 
 @Entity(tableName ="user_table")
 data class User (
-    //declaration of user table columns
-    @PrimaryKey(autoGenerate = true)
-    @ColumnInfo(name="user_id")
-    var userId: Int,
-
+    @PrimaryKey
     @ColumnInfo(name ="user_name")
     var name: String,
 
@@ -19,13 +17,13 @@ data class User (
 @Entity(tableName = "medicament_table")
 data class Medicament(
     @PrimaryKey(autoGenerate = true)
-    var medID: Int,
+    var medID: Long,
 
     @ColumnInfo(name = "med_name")
     var med_name: String,
 
-    /* @ColumnInfo(name = "user")
-     var med_userID: Int, */
+    @ColumnInfo(name = "med_username")
+     var med_username: String,
 
     @ColumnInfo(name = "dosis")
     var med_dosis: String,
@@ -40,12 +38,4 @@ data class Medicament(
     var med_time3: String
 )
 
-data class UserWithMed(
-    @Embedded val user: User,
-    @Relation(
-        parentColumn = "userID",
-        entityColumn = "med_userID"
-    )
-    val medication: List<Medicament>
-)
 

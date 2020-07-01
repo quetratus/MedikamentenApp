@@ -20,7 +20,6 @@ class MedikamentFragment : Fragment() {
 
     private lateinit var medViewModel: MedViewModel
 
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -35,7 +34,6 @@ class MedikamentFragment : Fragment() {
         medViewModel = ViewModelProvider(this, factory).get(MedViewModel::class.java)
         binding.medViewModel = medViewModel
         binding.lifecycleOwner = this
-        displayUsersList()
 
         medViewModel.message.observe(viewLifecycleOwner, Observer {
             it.getContentIfNotHandled()?.let {
@@ -52,11 +50,5 @@ class MedikamentFragment : Fragment() {
 
         return binding.root
     }
-
-    private fun displayUsersList() {
-        medViewModel.meds.observe(viewLifecycleOwner, Observer{ Log.i("MYTAG", it.toString() )} )
-
-    }
-
 
 }

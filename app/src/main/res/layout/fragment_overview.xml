@@ -14,7 +14,6 @@
         android:layout_height="match_parent"
         tools:context="com.example.medikamentenapp.OverviewFragment">
 
-
         <Button
             android:id="@+id/button_add_med"
             android:layout_width="wrap_content"
@@ -47,11 +46,23 @@
             android:layout_marginTop="8dp"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="16dp"
-            android:text="@string/liste_der_eingenommen_medikamente_inkl_uhrzeit"
+            android:text="@{medViewModel.medsListString}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/button_add_med" />
+
+        <ScrollView
+            android:id="@+id/overview_scrollview"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="5dp"
+            app:layout_constraintTop_toBottomOf="@+id/button_add_med"
+            app:layout_constraintBottom_toTopOf="@+id/overview_list"
+            tools:layout_editor_absoluteX="332dp">
+
+        </ScrollView>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
