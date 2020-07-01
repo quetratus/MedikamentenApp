@@ -105,7 +105,6 @@ class UserViewModel(private val repository: UserRepository) : ViewModel(), Obser
         }
     }
 
-
     suspend fun insertUser(user: User) = viewModelScope.launch {
         val newRowId: Long = repository.insertUser(user)
         if (newRowId == -1L) {
@@ -115,7 +114,6 @@ class UserViewModel(private val repository: UserRepository) : ViewModel(), Obser
             statusMessage.value = Event("Fehler aufgetreten")
         }
     }
-
 
     override fun removeOnPropertyChangedCallback(callback: Observable.OnPropertyChangedCallback?) {
     }

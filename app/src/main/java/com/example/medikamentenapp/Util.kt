@@ -7,11 +7,11 @@ import android.text.Spanned
 import androidx.core.text.HtmlCompat
 import com.example.medikamentenapp.entities.Medicament
 
-fun formatMeds(nights: List<Medicament>, resources: Resources): Spanned {
+fun formatMeds(meds: List<Medicament>, resources: Resources): Spanned {
         val sb = StringBuilder()
         sb.apply {
             append(resources.getString(R.string.title))
-            nights.forEach {
+            meds.forEach {
                 append("<br>")
                 append(it.med_name)
                 append(it.med_dosis)

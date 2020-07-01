@@ -1,7 +1,6 @@
 package com.example.medikamentenapp
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -46,7 +45,6 @@ class MedikamentFragment : Fragment() {
             val minute: Int = binding.timePicker.currentMinute
             medViewModel.addTime(hour, minute)
         }
-
 
         return binding.root
     }
