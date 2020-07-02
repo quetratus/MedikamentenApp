@@ -4,8 +4,6 @@ import android.app.Application
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.medikamentenapp.Repository.UserRepository
-import com.example.medikamentenapp.db.UserDatabase
-import java.lang.IllegalArgumentException
 
 class UserViewModelFactory (private val repository: UserRepository, private val application: Application) : ViewModelProvider.Factory {
     @Suppress("unchecked")

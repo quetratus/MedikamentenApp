@@ -8,6 +8,7 @@ import com.example.medikamentenapp.R
 import com.example.medikamentenapp.Repository.MedicamentRepository
 import com.example.medikamentenapp.entities.Medicament
 import com.example.medikamentenapp.formatMeds
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class MedViewModel(private val repository: MedicamentRepository) :
@@ -18,7 +19,9 @@ class MedViewModel(private val repository: MedicamentRepository) :
     val meds = getAllMed(loggedInUser)
 
     suspend fun getAllMed(username: String): LiveData<List<Medicament>> {
-        return dao.getAllMed(username)
+        viewModelScope.launch(Dispatchers.Main) {
+            return dao.getAllMed(username)
+        }
     }
 
     @Bindable

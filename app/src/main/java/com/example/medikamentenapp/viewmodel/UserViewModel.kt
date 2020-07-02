@@ -3,22 +3,23 @@ package com.example.medikamentenapp.viewmodel
 import android.app.Application
 import androidx.databinding.Bindable
 import androidx.databinding.Observable
-import androidx.lifecycle.*
-import androidx.room.Dao
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.medikamentenapp.Event
 import com.example.medikamentenapp.Repository.UserRepository
-import com.example.medikamentenapp.dao.DaoAccess
-import com.example.medikamentenapp.db.UserDatabase
-import com.example.medikamentenapp.entities.Medicament
 import com.example.medikamentenapp.entities.User
-import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 
 class UserViewModel(private val repository: UserRepository, private val application: Application) : ViewModel(), Observable {
 // UserviewModel observes live data
-    val users = repository.users
+   // val users = repository.users
 
-    private var loggedInUser = MutableLiveData<User?>()
+   // private var loggedInUser = MutableLiveData<User?>()
 
     @Bindable
     val inputName = MutableLiveData<String>()
@@ -51,7 +52,7 @@ class UserViewModel(private val repository: UserRepository, private val applicat
         _navigateLoggedInEvent.value = false
     }
 
-    fun validation():Boolean {
+    private fun validation():Boolean {
         if (inputName.value == null || inputPassword.value == null) {
             statusMessage.value = Event("Bitte Namen und Passwort eingeben")
             return false
@@ -69,7 +70,7 @@ class UserViewModel(private val repository: UserRepository, private val applicat
         }
     }
 
-    fun getUser(name:String, password: String){
+    private fun getUser(name:String, password: String){
         viewModelScope.launch(Dispatchers.Main) {
             val user = getUserFromDB(name, password)
             if(user != null){
@@ -83,7 +84,7 @@ class UserViewModel(private val repository: UserRepository, private val applicat
         }
     }
 
-    suspend fun getUserFromDB(name: String, password: String): User {
+    private suspend fun getUserFromDB(name: String, password: String): User {
         // Move the execution of the coroutine to the I/O dispatcher
         return withContext(Dispatchers.IO) {
             val user = repository.getUser(name, password)
@@ -106,7 +107,7 @@ class UserViewModel(private val repository: UserRepository, private val applicat
         }
     }
 
-    suspend fun insertUser(user: User) = viewModelScope.launch {
+    private suspend fun insertUser(user: User) = viewModelScope.launch {
         val newRowId: Long = repository.insertUser(user)
         if (newRowId == -1L) {
             statusMessage.value = Event( "Erfolgreich hinzugefügt")

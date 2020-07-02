@@ -60,14 +60,17 @@
                     android:layout_marginBottom="@dimen/vertical_margin_small"
                     android:autofillHints=""
                     android:hint="@string/password"
-                    android:inputType="textPassword"
                     android:text="@={userViewModel.inputPassword}"
                     android:textAlignment="center"
                     android:textSize="@dimen/text_size_big"
                     app:layout_constraintBottom_toTopOf="@+id/login_button"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/login_username" />
+                    app:layout_constraintTop_toBottomOf="@+id/login_username"
+                    android:inputType="textPassword" />
+             <!--       android:hint="@string/password" -->
+               <!--     android:inputType="textPassword" -->
+
 
                 <Button
                     android:id="@+id/login_button"
