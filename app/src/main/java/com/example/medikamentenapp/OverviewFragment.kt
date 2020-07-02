@@ -13,6 +13,7 @@ import androidx.navigation.Navigation
 import com.example.medikamentenapp.Repository.MedicamentRepository
 import com.example.medikamentenapp.databinding.FragmentOverviewBinding
 import com.example.medikamentenapp.db.UserDatabase
+import com.example.medikamentenapp.viewmodel.LoggedInUserView
 import com.example.medikamentenapp.viewmodel.MedViewModel
 import com.example.medikamentenapp.viewmodel.MedViewModelFactory
 
@@ -33,7 +34,8 @@ class OverviewFragment : Fragment() {
         val application = requireNotNull(this.activity).application
         val dao = UserDatabase.getDatabase(application)!!.daoAccess
         val repository = MedicamentRepository(dao)
-        val factory = MedViewModelFactory(repository, application)
+        val model = LoggedInUserView(displayName = "Sebastian")
+        val factory = MedViewModelFactory(repository, application, model)
         medViewModel = ViewModelProvider(this, factory).get(MedViewModel::class.java)
         binding.medViewModel = medViewModel
         binding.lifecycleOwner = this

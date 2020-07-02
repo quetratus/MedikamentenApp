@@ -18,12 +18,10 @@ import com.example.medikamentenapp.Repository.MedicamentRepository
 import com.example.medikamentenapp.databinding.FragmentMedikamentBinding
 import com.example.medikamentenapp.db.UserDatabase
 import com.example.medikamentenapp.notify.ReminderBroadcast
+import com.example.medikamentenapp.viewmodel.LoggedInUserView
 import com.example.medikamentenapp.viewmodel.MedViewModel
 import com.example.medikamentenapp.viewmodel.MedViewModelFactory
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 import java.util.*
 
 class MedikamentFragment : Fragment() {
@@ -44,7 +42,8 @@ class MedikamentFragment : Fragment() {
         binding.timePicker.setIs24HourView(true)
         val dao = UserDatabase.getDatabase(application)!!.daoAccess
         val repository = MedicamentRepository(dao)
-        val factory = MedViewModelFactory(repository, application)
+        val model = LoggedInUserView(displayName = "Sebastian")
+        val factory = MedViewModelFactory(repository, application, model)
         medViewModel = ViewModelProvider(this, factory).get(MedViewModel::class.java)
         //binding.medViewModel = medViewModel
         binding.lifecycleOwner = this
@@ -116,18 +115,39 @@ class MedikamentFragment : Fragment() {
         }
 
         binding.buttonMedFinish.setOnClickListener {
-            uiScope.launch {
-                medViewModel.saveMed(medViewModel.loggedInUser)
-
-                val pendingIntent1 = createPendingIntent(
-                    medViewModel.inputMedName.toString(),
-                    medViewModel.inputMedTime1.toString()
+            if (binding.medName.text == null) {
+                Toast.makeText(this.context, "Bitte den Namen eingeben!", Toast.LENGTH_SHORT)
+            } else if (binding.medDose.text == null) {
+                Toast.makeText(this.context, "Bitte die Dosis eingeben!", Toast.LENGTH_SHORT)
+            } else if (binding.medTime.text == null) {
+                Toast.makeText(
+                    this.context,
+                    "Bitte bis zu drei Uhreziten eingeben!",
+                    Toast.LENGTH_SHORT
                 )
+            } else {
+                uiScope.launch(Dispatchers.Main) {
+                    withContext(Dispatchers.IO) {
+                        medViewModel.saveMed(
+                            binding.medName.text.toString(),
+                            "Sebastian",
+                            binding.medDose.text.toString(),
+                            medViewModel.inputMedTime1.value!!.toString(),
+                            medViewModel.inputMedTime2.value!!.toString(),
+                            medViewModel.inputMedTime3.value!!.toString()
+                        )
+                    }
 
-                val alarmManager = context?.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+                    val pendingIntent1 = createPendingIntent(
+                        medViewModel.inputMedName.toString(),
+                        medViewModel.inputMedTime1.toString()
+                    )
 
-                val calendar1: Calendar =
-                    prepareTime(medViewModel.medTime1Hour, medViewModel.medTime1Min)
+                    val alarmManager =
+                        context?.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+
+                    val calendar1: Calendar =
+                        prepareTime(medViewModel.medTime1Hour, medViewModel.medTime1Min)
                 alarmManager.setRepeating(
                     AlarmManager.RTC_WAKEUP,
                     calendar1.timeInMillis,
@@ -165,10 +185,7 @@ class MedikamentFragment : Fragment() {
                 Navigation.createNavigateOnClickListener(R.id.action_medikament_to_overview)
         }
         }
-
-        binding.buttonMedFinish.setOnClickListener (
-            Navigation.createNavigateOnClickListener(R.id.action_medikament_to_overview)
-        )
+        }
 
         return binding.root
     }

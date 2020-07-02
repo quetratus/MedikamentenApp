@@ -14,7 +14,7 @@ import com.example.medikamentenapp.entities.User
 interface DaoAccess {
 
     @Insert(onConflict = IGNORE)
-    suspend fun insertUser(user: User) : Long //   query is written  for insert all details of user
+    fun insertUser(user: User): Long //   query is written  for insert all details of user
 
     @Query("SELECT * FROM user_table WHERE  user_name LIKE :username AND user_password LIKE :password")
     fun getUser(username: String, password: String): User

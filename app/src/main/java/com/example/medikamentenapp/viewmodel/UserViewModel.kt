@@ -11,16 +11,16 @@ import androidx.lifecycle.viewModelScope
 import com.example.medikamentenapp.Event
 import com.example.medikamentenapp.Repository.UserRepository
 import com.example.medikamentenapp.entities.User
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.*
 
 
 class UserViewModel(private val repository: UserRepository, private val application: Application) : ViewModel(), Observable {
 // UserviewModel observes live data
-   // val users = repository.users
+    // val users = repository.users
 
-   // private var loggedInUser = MutableLiveData<User?>()
+    // private var loggedInUser = MutableLiveData<User?>()
+    private var viewModelJob = Job()
+    private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
 
     @Bindable
     val inputName = MutableLiveData<String>()
@@ -94,7 +94,19 @@ class UserViewModel(private val repository: UserRepository, private val applicat
     }
 
     fun registerUser(){
-        Log.i("test", "Test")
+        uiScope.launch {
+            Log.i("test", "Test")
+            if (validation()) {
+                val name = inputName.value!!
+                val password = inputPassword.value!!
+
+                insertUser(User(name, password))
+                LoggedInUserView(displayName = name)
+                inputName.value = null
+                inputPassword.value = null
+            }
+
+        }
 
         //
     }
@@ -116,10 +128,10 @@ class UserViewModel(private val repository: UserRepository, private val applicat
 
      */
 
-    private suspend fun insertUser(user: User) = viewModelScope.launch {
+    private fun insertUser(user: User) = uiScope.launch {
         val newRowId: Long = repository.insertUser(user)
         if (newRowId == -1L) {
-            statusMessage.value = Event( "Erfolgreich hinzugefügt")
+            statusMessage.value = Event("Erfolgreich hinzugefügt")
             _navigateLoggedInEvent.value = true
         } else {
             statusMessage.value = Event("Fehler aufgetreten")

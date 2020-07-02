@@ -14,5 +14,5 @@
     <string name="enter_med">Medikament eingeben</string>
     <string name="enter_dose">Anzahl Pulver je Einnahme</string>
     <string name="willkomen">Herzlich willkommen zu:</string>
-    <string name="title">[CDATA[<h3>Liste der eingenommen Medikamente inkl Uhrzeit</h3>]]</string>
+    <string name="title"><![CDATA[<h3>Liste der eingenommen Medikamente inkl Uhrzeit</h3>]]></string>
 </resources>

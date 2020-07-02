@@ -7,7 +7,7 @@ class UserRepository(private val dao: DaoAccess) {
 
    // val users = dao.getAllUsers()
 
-    suspend fun insertUser(user: User): Long {
+    fun insertUser(user: User): Long {
         return dao.insertUser(user)
     }
 

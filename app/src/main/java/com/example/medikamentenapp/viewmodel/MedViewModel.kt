@@ -5,20 +5,22 @@ import androidx.databinding.Bindable
 import androidx.databinding.Observable
 import androidx.lifecycle.*
 import com.example.medikamentenapp.Event
-import com.example.medikamentenapp.R
 import com.example.medikamentenapp.Repository.MedicamentRepository
 import com.example.medikamentenapp.entities.Medicament
 import com.example.medikamentenapp.formatMeds
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class MedViewModel(private val repository: MedicamentRepository, private val application: Application) :
+class MedViewModel(
+    private val repository: MedicamentRepository,
+    private val application: Application,
+    private val model: LoggedInUserView
+) :
     ViewModel(), Observable {
     //val application = requireNotNull(this).application
     val loggedInUser = model.displayName
 
 
-    val meds =  repository.getAllMed(username)
+    val meds = repository.getAllMed(loggedInUser)
 
     /*
     fun getAllMed(username: String): LiveData<List<Medicament>> {
@@ -28,8 +30,6 @@ class MedViewModel(private val repository: MedicamentRepository, private val app
     }
 
      */
-
-
 
     @Bindable
     val inputMedName = MutableLiveData<String>()
@@ -68,21 +68,14 @@ class MedViewModel(private val repository: MedicamentRepository, private val app
     }
 
 
-    suspend fun saveMed(Model: LoggedInUserView) {
-        if (inputMedName.value == null) {
-            statusMessage.value = Event("Bitte den Namen eingeben!")
-        } else if (inputMedDosis.value == null) {
-            statusMessage.value = Event("Bitte die Dosis eingeben!")
-        } else if (inputMedTime1.value == null) {
-            statusMessage.value = Event("Bitte bis zu drei Uhrzeiten eingeben!")
-        }
-
-        val medName = inputMedName.value!!
-        val medUsername = Model.displayName
-        val medDosis = inputMedDosis.value!!
-        val medTime1 = inputMedTime1.value!!
-        val medTime2 = inputMedTime2.value!!
-        val medTime3 = inputMedTime3.value!!
+    suspend fun saveMed(
+        medName: String,
+        medUsername: String,
+        medDosis: String,
+        medTime1: String,
+        medTime2: String,
+        medTime3: String
+    ) {
 
         insertMed(Medicament(0, medName, medUsername, medDosis, medTime1, medTime2, medTime3))
         inputMedName.value = null
@@ -90,7 +83,6 @@ class MedViewModel(private val repository: MedicamentRepository, private val app
         inputMedTime1.value = null
         inputMedTime2.value = null
         inputMedTime3.value = null
-
     }
 
     private suspend fun insertMed(med: Medicament) = viewModelScope.launch {

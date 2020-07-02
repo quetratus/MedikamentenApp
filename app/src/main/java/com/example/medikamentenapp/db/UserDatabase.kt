@@ -28,7 +28,7 @@ abstract class UserDatabase : RoomDatabase() {
                         context.applicationContext,
                         UserDatabase::class.java,
                         "USER DATABASE"
-                    )
+                    ).allowMainThreadQueries()
                         // Wipes and rebuilds instead of migrating if no Migration object
                         .fallbackToDestructiveMigration()
                         .build()
