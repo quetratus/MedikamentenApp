@@ -1,5 +1,6 @@
 package com.example.medikamentenapp.viewmodel
 
+import android.app.Application
 import androidx.databinding.Bindable
 import androidx.databinding.Observable
 import androidx.lifecycle.*
@@ -13,7 +14,7 @@ import com.example.medikamentenapp.entities.User
 import kotlinx.coroutines.*
 
 
-class UserViewModel(private val repository: UserRepository) : ViewModel(), Observable {
+class UserViewModel(private val repository: UserRepository, private val application: Application) : ViewModel(), Observable {
 // UserviewModel observes live data
     val users = repository.users
 

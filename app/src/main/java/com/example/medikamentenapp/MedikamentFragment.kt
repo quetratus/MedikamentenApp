@@ -40,7 +40,7 @@ class MedikamentFragment : Fragment() {
         val binding: FragmentMedikamentBinding =
             DataBindingUtil.inflate(inflater, R.layout.fragment_medikament, container, false)
         val application = requireNotNull(this.activity).application
-        var viewModelJob = Job()
+        val viewModelJob = Job()
         val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
         binding.timePicker.setIs24HourView(true)
         val dao = UserDatabase.getDatabase(application)!!.daoAccess
@@ -167,17 +167,18 @@ class MedikamentFragment : Fragment() {
         }
         }
 
+        binding.buttonMedFinish.setOnClickListener (
+            Navigation.createNavigateOnClickListener(R.id.action_medikament_to_overview)
+        )
+
         return binding.root
     }
 
-    private fun displayUsersList() {
-        medViewModel.meds.observe(viewLifecycleOwner, Observer{ Log.i("MYTAG", it.toString() )} )
 
-    }
 
     private fun createPendingIntent(medName: String, medTime: String): PendingIntent? {
         val intent = Intent(this.context, ReminderBroadcast::class.java).apply {
-            putExtra(medName, "$medName")
+            putExtra(medName, medName)
             type = "$medName - $medTime"
         }
         return PendingIntent.getBroadcast(this.context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
@@ -187,11 +188,10 @@ class MedikamentFragment : Fragment() {
         var hour: Int = h
         var minute: Int = m
 
-        if (minute <15){
+        if (minute < 15) {
             hour -= 1
             minute += 45
-        }
-        else {
+        } else {
             minute -= 15
         }
         val calendar: Calendar = Calendar.getInstance().apply {
@@ -200,7 +200,7 @@ class MedikamentFragment : Fragment() {
             set(Calendar.MINUTE, minute)
         }
         return calendar
-    }
 
+    }
 
 }
