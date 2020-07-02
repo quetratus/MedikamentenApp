@@ -14,22 +14,22 @@ import kotlinx.coroutines.launch
 
 class ReminderBroadcast : BroadcastReceiver() {
 
-    var viewModelJob = Job()
-    val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
+    private var viewModelJob = Job()
+    private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
 
     override fun onReceive(context: Context, intent: Intent) {
         uiScope.launch {
 
-        val dao = UserDatabase.getDatabase(context)!!.daoAccess
-        val repository = MedicamentRepository(dao)
+            val dao = UserDatabase.getDatabase(context)!!.daoAccess
+            val repository = MedicamentRepository(dao)
 
-        if(context != null && intent != null){
-            val med = intent.extras!!.getString("medName")?.let { repository.getMedByName(it) }
-            if (med != null) {
-                NotificationHelper.createMedNotification(context, med, true)
+            if (context != null && intent != null) {
+                val med = intent.extras!!.getString("medName")?.let { repository.getMedByName(it) }
+                if (med != null) {
+                    NotificationHelper.createMedNotification(context, med, true)
+                }
             }
         }
-    }
     }
 }
 

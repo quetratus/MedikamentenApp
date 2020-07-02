@@ -49,7 +49,7 @@ object NotificationHelper {
         // Used the app’s Context to get a reference to NotificationManagerCompat.
         val notificationManager = NotificationManagerCompat.from(context)
         // Called notify() on the NotificationManager passing in an identifier and the notification.
-        notificationManager.notify(med.medID, notificationBuilder.build())
+        notificationManager.notify(med.medID.toInt(), notificationBuilder.build())
     }
 
 }

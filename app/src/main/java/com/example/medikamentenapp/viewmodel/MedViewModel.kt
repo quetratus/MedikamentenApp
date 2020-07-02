@@ -1,8 +1,5 @@
 package com.example.medikamentenapp.viewmodel
 
-import android.content.Context
-import androidx.core.app.NotificationCompat
-import androidx.core.app.NotificationManagerCompat
 import androidx.databinding.Bindable
 import androidx.databinding.Observable
 import androidx.lifecycle.*
@@ -10,13 +7,13 @@ import com.example.medikamentenapp.Event
 import com.example.medikamentenapp.R
 import com.example.medikamentenapp.Repository.MedicamentRepository
 import com.example.medikamentenapp.entities.Medicament
-import com.example.medikamentenapp.entities.UserWithMed
 import com.example.medikamentenapp.formatMeds
 import kotlinx.coroutines.launch
 
-class MedViewModel(private val repository: MedicamentRepository) : ViewModel(), Observable {
+class MedViewModel(private val repository: MedicamentRepository, model: LoggedInUserView) :
+    ViewModel(), Observable {
     val application = requireNotNull(this).application
-    val loggedInUser = Model.displayName
+    val loggedInUser = model.displayName
 
     val meds = getAllMed(loggedInUser)
 
@@ -47,9 +44,6 @@ class MedViewModel(private val repository: MedicamentRepository) : ViewModel(), 
     var medTime3Hour: Int = 0
     var medTime3Set: Boolean = false
 
-    /*@Bindable
-    val saveMedButton = MutableLiveData<String>()*/
-
     var timeString: String = ""
 
 
@@ -60,11 +54,6 @@ class MedViewModel(private val repository: MedicamentRepository) : ViewModel(), 
 
     val medsListString = Transformations.map(meds) { meds ->
         formatMeds(meds, application.resources)
-    }
-
-    init {
-        //saveMedButton.value = "SPEICHERN"
-
     }
 
     suspend fun saveMed(Model: LoggedInUserView) {

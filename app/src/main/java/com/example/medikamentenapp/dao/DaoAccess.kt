@@ -23,10 +23,13 @@ interface DaoAccess {
     fun getAllUsers(): LiveData<List<User>> //   query is written for fetching all details of user
 
     @Insert(onConflict = REPLACE)
-    suspend fun insertMed(med: Medicament) : Long
+    suspend fun insertMed(med: Medicament): Long
 
     @Transaction
     @Query("SELECT * FROM medicament_table WHERE med_username =:username")
-    suspend fun getAllMed(username:String): LiveData<List<Medicament>>
+    suspend fun getAllMed(username: String): LiveData<List<Medicament>>
+
+    @Query("SELECT * FROM medicament_table WHERE med_name =:name")
+    suspend fun getMedByName(name: String): Medicament
 
 }

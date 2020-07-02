@@ -21,6 +21,10 @@ import com.example.medikamentenapp.db.UserDatabase
 import com.example.medikamentenapp.notify.ReminderBroadcast
 import com.example.medikamentenapp.viewmodel.MedViewModel
 import com.example.medikamentenapp.viewmodel.MedViewModelFactory
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 import java.util.*
 
 class MedikamentFragment : Fragment() {
@@ -33,8 +37,11 @@ class MedikamentFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        val binding: FragmentMedikamentBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_medikament, container, false)
+        val binding: FragmentMedikamentBinding =
+            DataBindingUtil.inflate(inflater, R.layout.fragment_medikament, container, false)
         val application = requireNotNull(this.activity).application
+        var viewModelJob = Job()
+        val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
         binding.timePicker.setIs24HourView(true)
         val dao = UserDatabase.getDatabase(application)!!.daoAccess
         val repository = MedicamentRepository(dao)
@@ -104,30 +111,60 @@ class MedikamentFragment : Fragment() {
                     medViewModel.inputMedTime3.value = "$hour:$minute"
                 }
             } else {
-                Toast.makeText(this.context, "Alle drei Uhrzeiten belegt!", Toast.LENGTH_LONG).show()
+                Toast.makeText(this.context, "Alle drei Uhrzeiten belegt!", Toast.LENGTH_LONG)
+                    .show()
             }
         }
 
-        binding.buttonMedFinish.setOnClickListener{
-            //medViewModel.saveMed()
+        binding.buttonMedFinish.setOnClickListener {
+            uiScope.launch {
+                medViewModel.saveMed(medViewModel.loggedInUser)
 
-            val pendingIntent1= createPendingIntent(medViewModel.inputMedName.toString(), medViewModel.inputMedTime1.toString())
+                val pendingIntent1 = createPendingIntent(
+                    medViewModel.inputMedName.toString(),
+                    medViewModel.inputMedTime1.toString()
+                )
 
-            val alarmManager = context?.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+                val alarmManager = context?.getSystemService(Context.ALARM_SERVICE) as AlarmManager
 
-            val calendar1: Calendar = prepareTime(medViewModel.medTime1Hour, medViewModel.medTime1Min)
-            alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar1.timeInMillis, AlarmManager.INTERVAL_DAY, pendingIntent1)
-            if (medViewModel.medTime2Set == true) {
-                val pendingIntent2= createPendingIntent(medViewModel.inputMedName.toString(), medViewModel.inputMedTime2.toString())
-                val calendar2: Calendar = prepareTime(medViewModel.medTime2Hour, medViewModel.medTime2Min)
-                alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar2.timeInMillis, AlarmManager.INTERVAL_DAY, pendingIntent2)
-            }
-            if (medViewModel.medTime3Set == true) {
-                val pendingIntent3= createPendingIntent(medViewModel.inputMedName.toString(), medViewModel.inputMedTime3.toString())
-                val calendar3: Calendar = prepareTime(medViewModel.medTime3Hour, medViewModel.medTime3Min)
-                alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar3.timeInMillis, AlarmManager.INTERVAL_DAY, pendingIntent3)
-            }
-            Navigation.createNavigateOnClickListener(R.id.action_medikament_to_overview)
+                val calendar1: Calendar =
+                    prepareTime(medViewModel.medTime1Hour, medViewModel.medTime1Min)
+                alarmManager.setRepeating(
+                    AlarmManager.RTC_WAKEUP,
+                    calendar1.timeInMillis,
+                    AlarmManager.INTERVAL_DAY,
+                    pendingIntent1
+                )
+                if (medViewModel.medTime2Set == true) {
+                    val pendingIntent2 = createPendingIntent(
+                        medViewModel.inputMedName.toString(),
+                        medViewModel.inputMedTime2.toString()
+                    )
+                    val calendar2: Calendar =
+                        prepareTime(medViewModel.medTime2Hour, medViewModel.medTime2Min)
+                    alarmManager.setRepeating(
+                        AlarmManager.RTC_WAKEUP,
+                        calendar2.timeInMillis,
+                        AlarmManager.INTERVAL_DAY,
+                        pendingIntent2
+                    )
+                }
+                if (medViewModel.medTime3Set == true) {
+                    val pendingIntent3 = createPendingIntent(
+                        medViewModel.inputMedName.toString(),
+                        medViewModel.inputMedTime3.toString()
+                    )
+                    val calendar3: Calendar =
+                        prepareTime(medViewModel.medTime3Hour, medViewModel.medTime3Min)
+                    alarmManager.setRepeating(
+                        AlarmManager.RTC_WAKEUP,
+                        calendar3.timeInMillis,
+                        AlarmManager.INTERVAL_DAY,
+                        pendingIntent3
+                    )
+                }
+                Navigation.createNavigateOnClickListener(R.id.action_medikament_to_overview)
+        }
         }
 
         return binding.root

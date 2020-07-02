@@ -7,8 +7,6 @@ import com.example.medikamentenapp.entities.Medicament
 
 class MedicamentRepository(private val dao: DaoAccess) {
 
- //val meds = dao.getAllMed()
-
     suspend fun insertMed(med: Medicament): Long {
         return dao.insertMed(med)
     }
@@ -16,8 +14,6 @@ class MedicamentRepository(private val dao: DaoAccess) {
     suspend fun getAllMed(username: String): LiveData<List<Medicament>> {
         return dao.getAllMed(username)
     }
-
-
 
     suspend fun getMedByName(name: String) : Medicament {
         return dao.getMedByName(name)
