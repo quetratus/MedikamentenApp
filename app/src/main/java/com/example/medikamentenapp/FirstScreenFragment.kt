@@ -20,12 +20,12 @@ class FirstScreenFragment : Fragment() {
         val binding: FragmentFirstScreenBinding =
             DataBindingUtil.inflate(inflater, R.layout.fragment_first_screen, container, false)
 
-        binding.buttonFirstLogin.setOnClickListener (
+        /*binding.buttonFirstLogin.setOnClickListener (
             Navigation.createNavigateOnClickListener(R.id.action_first_screen_to_login)
-        )
+        )*/
 
         binding.buttonFirstLogin.setOnClickListener (
-            Navigation.createNavigateOnClickListener(R.id.action_first_screen_to_login)
+            Navigation.createNavigateOnClickListener(R.id.action_first_screen_to_overview)
         )
 
         return binding.root

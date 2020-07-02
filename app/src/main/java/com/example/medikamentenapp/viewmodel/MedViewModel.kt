@@ -1,9 +1,13 @@
 package com.example.medikamentenapp.viewmodel
 
+import android.content.Context
+import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
 import androidx.databinding.Bindable
 import androidx.databinding.Observable
 import androidx.lifecycle.*
 import com.example.medikamentenapp.Event
+import com.example.medikamentenapp.R
 import com.example.medikamentenapp.Repository.MedicamentRepository
 import com.example.medikamentenapp.entities.Medicament
 import com.example.medikamentenapp.entities.UserWithMed
@@ -26,24 +30,27 @@ class MedViewModel(private val repository: MedicamentRepository) : ViewModel(), 
     @Bindable
     val inputMedDosis = MutableLiveData<String>()
 
-    private val inputMedTime1 = MutableLiveData<String>()
-    private var medTime1Min: Int = 0
-    private var medTime1Hour: Int = 0
+    val inputMedTime1 = MutableLiveData<String>()
+    var medTime1Min: Int = 0
+    var medTime1Hour: Int = 0
+    var medTime1Set: Boolean = false
 
 
-    private val inputMedTime2 = MutableLiveData<String>()
-    private var medTime2Min: Int = 0
-    private var medTime2Hour: Int = 0
+    val inputMedTime2 = MutableLiveData<String>()
+    var medTime2Min: Int = 0
+    var medTime2Hour: Int = 0
+    var medTime2Set: Boolean = false
 
 
-    private val inputMedTime3 = MutableLiveData<String>()
-    private var medTime3Min: Int = 0
-    private var medTime3Hour: Int = 0
+    val inputMedTime3 = MutableLiveData<String>()
+    var medTime3Min: Int = 0
+    var medTime3Hour: Int = 0
+    var medTime3Set: Boolean = false
 
-    @Bindable
-    val saveMedButton = MutableLiveData<String>()
+    /*@Bindable
+    val saveMedButton = MutableLiveData<String>()*/
 
-    val timeString = MutableLiveData<String>()
+    var timeString: String = ""
 
 
     private val statusMessage = MutableLiveData<Event<String>>()
@@ -56,53 +63,8 @@ class MedViewModel(private val repository: MedicamentRepository) : ViewModel(), 
     }
 
     init {
-        saveMedButton.value = "SPEICHERN"
-        timeString.value = ""
-    }
+        //saveMedButton.value = "SPEICHERN"
 
-    fun addTime(hour: Int, minute: Int) {
-        if (inputMedTime1.value == null) {
-            inputMedTime1.value = "$hour:$minute"
-            medTime1Hour = hour
-            medTime1Min = minute
-            if (hour < 10 && minute < 10) {
-                timeString.value = "1: 0$hour:0$minute"
-            } else if (hour < 10) {
-                timeString.value = "1: 0$hour:$minute"
-            } else if (minute < 10) {
-                timeString.value = "1: $hour:0$minute"
-            } else {
-                timeString.value = "1: $hour:$minute"
-            }
-        } else if (inputMedTime2.value == null) {
-            inputMedTime2.value = "$hour:$minute"
-            medTime2Hour = hour
-            medTime2Min = minute
-            if (hour < 10 && minute < 10) {
-                timeString.value = "${timeString.value} 2: 0$hour:0$minute"
-            } else if (hour < 10) {
-                timeString.value = "${timeString.value} 2: 0$hour:$minute"
-            } else if (minute < 10) {
-                timeString.value = "${timeString.value} 2: $hour:0$minute"
-            } else {
-                timeString.value = "${timeString.value} 2: $hour:$minute"
-            }
-        } else if (inputMedTime3.value == null) {
-            inputMedTime3.value = "$hour:$minute"
-            medTime3Hour = hour
-            medTime3Min = minute
-            if (hour < 10 && minute < 10) {
-                timeString.value = "${timeString.value} 3: 0$hour:0$minute"
-            } else if (hour < 10) {
-                timeString.value = "${timeString.value} 3: 0$hour:$minute"
-            } else if (minute < 10) {
-                timeString.value = "${timeString.value} 3: $hour:0$minute"
-            } else {
-                timeString.value = "${timeString.value} 3: $hour:$minute"
-            }
-        } else {
-            statusMessage.value = Event("Alle drei Uhrzeiten bereits vergeben!")
-        }
     }
 
     suspend fun saveMed(Model: LoggedInUserView) {

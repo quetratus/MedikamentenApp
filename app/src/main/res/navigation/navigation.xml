@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_first_screen_to_login"
             app:destination="@id/login" />
+        <action
+            android:id="@+id/action_first_screen_to_overview"
+            app:destination="@id/overview" />
     </fragment>
 
     <fragment

@@ -18,4 +18,8 @@ class MedicamentRepository(private val dao: DaoAccess) {
     }
 
 
+
+    suspend fun getMedByName(name: String) : Medicament {
+        return dao.getMedByName(name)
+    }
 }
