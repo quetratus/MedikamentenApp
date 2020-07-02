@@ -12,7 +12,8 @@ class UserRepository(private val dao: DaoAccess) {
     }
 
     fun getUser (name: String, password: String): User {
-        val user = return dao.getUser(name, password)
+        val user = dao.getUser(name, password)
+        return user
     }
 
 }

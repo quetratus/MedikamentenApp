@@ -10,7 +10,7 @@ import com.example.medikamentenapp.entities.Medicament
 import com.example.medikamentenapp.formatMeds
 import kotlinx.coroutines.launch
 
-class MedViewModel(private val repository: MedicamentRepository, model: LoggedInUserView) :
+class MedViewModel(private val repository: MedicamentRepository) :
     ViewModel(), Observable {
     val application = requireNotNull(this).application
     val loggedInUser = model.displayName
