@@ -27,7 +27,7 @@ interface DaoAccess {
 
     @Transaction
     @Query("SELECT * FROM medicament_table WHERE med_username =:username")
-    suspend fun getAllMed(username: String): LiveData<List<Medicament>>
+    fun getAllMed(username: String): LiveData<List<Medicament>>
 
     @Query("SELECT * FROM medicament_table WHERE med_name =:name")
     suspend fun getMedByName(name: String): Medicament

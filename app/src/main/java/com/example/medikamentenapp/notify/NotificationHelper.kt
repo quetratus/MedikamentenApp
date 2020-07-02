@@ -32,7 +32,7 @@ object NotificationHelper {
         val channelId = "${context.packageName}-${context.getString(R.string.app_name)}"
         // Use NotificationCompat.Builder to begin building the notification.
         val notificationBuilder = NotificationCompat.Builder(context, channelId).apply {
-            setSmallIcon(R.drawable.blume)
+            //setSmallIcon(R.drawable.blume)
             setContentTitle(med.med_name)
             setContentText("Einnahme ${med.med_dosis} von ${med.med_name} nicht vergessen!")
             priority = NotificationCompat.PRIORITY_DEFAULT

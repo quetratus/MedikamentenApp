@@ -1,5 +1,6 @@
 package com.example.medikamentenapp.viewmodel
 
+import android.app.Application
 import androidx.databinding.Bindable
 import androidx.databinding.Observable
 import androidx.lifecycle.*
@@ -11,18 +12,24 @@ import com.example.medikamentenapp.formatMeds
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class MedViewModel(private val repository: MedicamentRepository) :
+class MedViewModel(private val repository: MedicamentRepository, private val application: Application) :
     ViewModel(), Observable {
-    val application = requireNotNull(this).application
+    //val application = requireNotNull(this).application
     val loggedInUser = model.displayName
 
-    val meds = getAllMed(loggedInUser)
 
-    suspend fun getAllMed(username: String): LiveData<List<Medicament>> {
+    val meds =  repository.getAllMed(username)
+
+    /*
+    fun getAllMed(username: String): LiveData<List<Medicament>> {
         viewModelScope.launch(Dispatchers.Main) {
-            return dao.getAllMed(username)
+            return repository.getAllMed(username)
         }
     }
+
+     */
+
+
 
     @Bindable
     val inputMedName = MutableLiveData<String>()
@@ -55,9 +62,11 @@ class MedViewModel(private val repository: MedicamentRepository) :
     val message: LiveData<Event<String>>
         get() = statusMessage
 
+
     val medsListString = Transformations.map(meds) { meds ->
         formatMeds(meds, application.resources)
     }
+
 
     suspend fun saveMed(Model: LoggedInUserView) {
         if (inputMedName.value == null) {

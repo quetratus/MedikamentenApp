@@ -44,7 +44,7 @@ class MedikamentFragment : Fragment() {
         binding.timePicker.setIs24HourView(true)
         val dao = UserDatabase.getDatabase(application)!!.daoAccess
         val repository = MedicamentRepository(dao)
-        val factory = MedViewModelFactory(repository)
+        val factory = MedViewModelFactory(repository, application)
         medViewModel = ViewModelProvider(this, factory).get(MedViewModel::class.java)
         //binding.medViewModel = medViewModel
         binding.lifecycleOwner = this

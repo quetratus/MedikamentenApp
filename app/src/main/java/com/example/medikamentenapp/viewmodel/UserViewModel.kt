@@ -1,6 +1,7 @@
 package com.example.medikamentenapp.viewmodel
 
 import android.app.Application
+import android.util.Log
 import androidx.databinding.Bindable
 import androidx.databinding.Observable
 import androidx.lifecycle.LiveData
@@ -92,6 +93,12 @@ class UserViewModel(private val repository: UserRepository, private val applicat
         }
     }
 
+    fun registerUser(){
+        Log.i("test", "Test")
+
+        //
+    }
+    /*
     suspend fun registerUser() {
         if (validation()) {
             val name = inputName.value!!
@@ -106,6 +113,8 @@ class UserViewModel(private val repository: UserRepository, private val applicat
             statusMessage.value = Event("Bitte versuchen Sie es nochmal")
         }
     }
+
+     */
 
     private suspend fun insertUser(user: User) = viewModelScope.launch {
         val newRowId: Long = repository.insertUser(user)

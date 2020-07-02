@@ -11,7 +11,7 @@ class MedicamentRepository(private val dao: DaoAccess) {
         return dao.insertMed(med)
     }
 
-    suspend fun getAllMed(username: String): LiveData<List<Medicament>> {
+    fun getAllMed(username: String): LiveData<List<Medicament>> {
         return dao.getAllMed(username)
     }
 
